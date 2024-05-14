@@ -8,6 +8,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
+
 var select_query = "select * from student"
 
 console.log("Going to run ", select_query)
