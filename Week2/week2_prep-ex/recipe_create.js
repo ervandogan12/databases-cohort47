@@ -1,4 +1,3 @@
-
 import util from "util";
 import mysql from "mysql";
 import {
@@ -8,12 +7,14 @@ import {
   CREATE_INGREDIENTS_TABLE,
   CREATE_RECIPES_INGREDIENTS_TABLE,
   CREATE_RECIPES_STEPS_TABLE,
+  CREATE_STEPS_TABLE,
   INSERT_CATEGORIES_SET,
   INSERT_RECIPES_SET,
   INSERT_INGREDIENTS_SET,
   INSERT_RECIPE_CATEGORIES_SET,
   INSERT_RECIPE_INGREDIENTS_SET,
   INSERT_RECIPE_STEPS_SET,
+  INSERT_STEPS_SET,
   NONBAKED_CAKE_GET,
   RECIPE_WITH_POTATO,
   VEGAN_JAPAN_RECIPES,
@@ -23,6 +24,7 @@ import {
   recipeCategories,
   recipeIngredients,
   recipeSteps,
+  steps,
 } from "./data.js";
 
 const connection = mysql.createConnection({
@@ -66,8 +68,10 @@ async function createTables() {
     await Promise.all([
       execQuery(CREATE_CATEGORIES_TABLE),
       execQuery(CREATE_RECIPES_TABLE),
-      execQuery(CREATE_RECIPE_CATEGORIES_TABLE),
+      execQuery(CREATE_STEPS_TABLE),
       execQuery(CREATE_INGREDIENTS_TABLE),
+      execQuery(CREATE_RECIPE_CATEGORIES_TABLE),
+
       execQuery(CREATE_RECIPES_INGREDIENTS_TABLE),
       execQuery(CREATE_RECIPES_STEPS_TABLE),
     ]);
@@ -81,6 +85,9 @@ async function createTables() {
       }),
       ingredients.map((ingredient) => {
         execQuery(INSERT_INGREDIENTS_SET, ingredient);
+      }),
+      steps.map((step) => {
+        execQuery(INSERT_STEPS_SET, step);
       }),
       recipeCategories.map((recipeCategory) => {
         execQuery(INSERT_RECIPE_CATEGORIES_SET, recipeCategory);
@@ -103,7 +110,7 @@ async function getQueries() {
     const result1 = await Promise.all([
       execQuery(NONBAKED_CAKE_GET),
       execQuery(RECIPE_WITH_POTATO),
-      execQuery(VEGAN_JAPAN_RECIPES)
+      execQuery(VEGAN_JAPAN_RECIPES),
     ]);
     console.log("Query result:", result1);
   } catch (error) {

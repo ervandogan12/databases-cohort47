@@ -132,3 +132,36 @@ JOIN
     WHERE
     c.CategoryName = 'Vegetarian'
     AND i.IngredientName = 'Potatoes';
+
+ CREATE TABLE Steps (
+    StepID INT PRIMARY KEY AUTO_INCREMENT,
+    StepDescription TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO Steps (StepDescription)
+SELECT DISTINCT StepDescription
+FROM RecipeSteps;
+
+CREATE TABLE NewRecipeSteps (
+    RecipeID INT,
+    StepID INT,
+    StepNumber INT,
+    PRIMARY KEY (RecipeID, StepNumber),
+    FOREIGN KEY (RecipeID) REFERENCES Recipes(RecipeID),
+    FOREIGN KEY (StepID) REFERENCES Steps(StepID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+SET @stepNumber := 0;
+INSERT INTO NewRecipeSteps (RecipeID, StepID, StepNumber)
+SELECT 
+    rs.RecipeID,
+    s.StepID,
+    (@stepNumber := @stepNumber + 1) AS StepNumber
+FROM 
+    RecipeSteps rs
+JOIN 
+    Steps s ON rs.StepDescription = s.StepDescription
+ORDER BY 
+    rs.RecipeID, rs.StepID;
+
+ALTER TABLE NewRecipeSteps RENAME TO RecipeSteps;
