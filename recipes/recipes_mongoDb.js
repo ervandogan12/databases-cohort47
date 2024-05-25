@@ -212,6 +212,18 @@ const steps = [
 
 const recipes = [
   {
+    recipe_name: "No-Bake Cheesecake",
+    categories: ["new-id-004", "new-id-005"],
+    ingredients: [
+      "new-id-007",
+      "new-id-008",
+      "new-id-013",
+      "new-id-010",
+      "new-id-011",
+    ],
+    steps: ["new-id-026",  "new-id-027", "new-id-028", "new-id-029","new-id-030","new-id-031"],
+  },
+  {
     recipe_name: "Roasted Brussels Sprouts",
     categories: ["new-id-003"],
     ingredients: ["new-id-012", "new-id-013", "new-id-014", "new-id-015"],
