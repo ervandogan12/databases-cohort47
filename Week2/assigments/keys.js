@@ -1,12 +1,8 @@
-const util = require("util");
-const mysql = require("mysql");
 
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "hyfuser",
-  password: "hyfpassword",
-  database: "library",
-});
+
+import connection from "./connection.js";
+import execQuery from './exact_query.js';
+
 
 connection.connect((err) => {
   if (err) throw err;
@@ -22,7 +18,7 @@ const queries = {
 };
 
 async function createAuthorTable() {
-  const execQuery = util.promisify(connection.query.bind(connection));
+
   try {
     await Promise.all[
       queries.createTables.forEach((query) => execQuery(query))

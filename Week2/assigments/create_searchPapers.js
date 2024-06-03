@@ -1,12 +1,7 @@
-const util = require("util");
-const mysql = require("mysql");
+import execQuery from './exact_query.js';
+import connection from "./connection.js";
 
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "hyfuser",
-  password: "hyfpassword",
-  database: "library",
-});
+
 
 connection.connect((err) => {
   if (err) throw err;
@@ -22,7 +17,7 @@ const queries = {
 };
 
 async function createSearchPaperTables() {
-  const execQuery = util.promisify(connection.query.bind(connection));
+
   try {
     await Promise.all[
       queries.createTables.forEach((query) => execQuery(query))

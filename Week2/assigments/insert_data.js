@@ -1,21 +1,21 @@
-import util from "util";
-import mysql from "mysql";
-import { authorsData, researchPapersData, authorPaperData, mentors} from "./author_data.js";
+import execQuery from './exact_query.js';
+import {
+  authorsData,
+  researchPapersData,
+  authorPaperData,
+  mentors,
+} from "../assigments/data/author_data.js";
+import connection from "../assigments/connection.js";
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'hyfuser',
-  password : 'hyfpassword',
-  database : 'library'
+
+connection.connect((err) => {
+  if (err) throw err;
+  console.log("Connected to MySQL server.");
+  insertIntoTables();
 });
 
-connection.connect(err => {
-    if (err) throw err;
-    console.log('Connected to MySQL server.');
-    insertIntoTables();
-  });
   async function insertIntoTables() {
-    const execQuery = util.promisify(connection.query.bind(connection));
+ 
     try {      
         await Promise.all(authorsData.map(async author => {
             await execQuery(`INSERT INTO Authors SET ?`, author);
@@ -34,7 +34,3 @@ connection.connect(err => {
     }
     connection.end();
 }
-
-
-
-

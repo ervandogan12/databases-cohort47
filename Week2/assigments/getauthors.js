@@ -1,5 +1,5 @@
-import util from "util";
-import mysql from "mysql";
+import execQuery from './exact_query.js';
+
 import {
   AUTHOR_NAME_MENTOR,
   AUTHOR_NUM_PAPERS,
@@ -8,14 +8,9 @@ import {
   SUM_PAPERS_AUTH_PER_UNI,
   TOTAL_PAPERS_BY_FEMALE_AUTHORS,
   MIN_MAX_H_INDEX_ALL_AUTHORS_PER_UNI,
-} from "./author_data.js";
+} from "../assigments/data/sql_commands.js";
+import connection from "../assigments/connection.js";
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "hyfuser",
-  password: "hyfpassword",
-  database: "library",
-});
 
 connection.connect((err) => {
   if (err) throw err;
@@ -23,7 +18,7 @@ connection.connect((err) => {
   getQueries();
 });
 async function getQueries() {
-  const execQuery = util.promisify(connection.query.bind(connection));
+
   try {
     const result = await Promise.all([
       execQuery(AUTHOR_NAME_MENTOR),
